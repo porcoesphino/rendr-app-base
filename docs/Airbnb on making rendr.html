@@ -1,0 +1,787 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0070)http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US" prefix="og: http://ogp.me/ns#" class="mac chrome chrome3 webkit webkit5 wf-brevia-i3-inactive wf-ffmetaserifwebpro-i5-inactive wf-ffmetaserifwebpro-i7-active wf-ffmetaserifwebpro-n5-active wf-ffmetaserifwebpro-n7-active wf-magionweb-n4-active wf-active"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/">--><base href=".">
+
+<title>Our First Node.js App: Backbone on the Client and Server - Airbnb Engineering</title>
+
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.4.18 - http://yoast.com/wordpress/seo/ -->
+<link rel="canonical" href="./Airbnb on making rendr_files/Airbnb on making rendr.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Our First Node.js App: Backbone on the Client and Server - Airbnb Engineering">
+<meta property="og:description" content="by Spike Brehm Here at Airbnb, we&#39;ve been looking curiously at Node.js for a long time now. We&#39;ve used it for odds and ends, such as the build process for some of our libraries, but we hadn&#39;t built anything production-scale. Until now. The Problem...">
+<meta property="og:url" content="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/">
+<meta property="og:site_name" content="Airbnb Engineering">
+<meta property="og:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/03/surfer-crossing.jpg">
+<meta property="og:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/01/Screen_Shot_2013-01-22_at_9.56.34_AM.png.scaled500.png">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Airbnb Engineering » Feed" href="http://nerds.airbnb.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Airbnb Engineering » Comments Feed" href="http://nerds.airbnb.com/comments/feed/">
+
+            <script id="shr-google-analytics" type="text/javascript" async="" src="./Airbnb on making rendr_files/ga.js"></script><script id="shr-analytics" type="text/javascript" async="" src="./Airbnb on making rendr_files/shareaholic-analytics.js"></script><script data-cfasync="false" src="./Airbnb on making rendr_files/shareaholic.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="./Airbnb on making rendr_files/ga(1).js"></script><script type="text/javascript">//<![CDATA[
+            // Google Analytics for WordPress by Yoast v4.3.3 | http://yoast.com/wordpress/google-analytics/
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-2725447-9']);
+				            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+			<link rel="alternate" type="application/rss+xml" title="Airbnb Engineering » Our First Node.js App: Backbone on the Client and Server Comments Feed" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/feed/">
+<link rel="stylesheet" id="child-theme-css" href="./Airbnb on making rendr_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="o2-styles1-css" href="./Airbnb on making rendr_files/docs.css" type="text/css" media="all">
+<link rel="stylesheet" id="o2-styles2-css" href="./Airbnb on making rendr_files/o2.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-font-css" href="./Airbnb on making rendr_files/font.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-menu-css" href="./Airbnb on making rendr_files/snap.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-main-css" href="./Airbnb on making rendr_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-markdown-editor-css" href="./Airbnb on making rendr_files/markdown-editor.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-markdown-prettify-css" href="./Airbnb on making rendr_files/prettify.css" type="text/css" media="all">
+<script type="text/javascript" src="./Airbnb on making rendr_files/comment-reply.min.js"></script><style type="text/css"></style>
+<script type="text/javascript" src="./Airbnb on making rendr_files/jquery.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/stdair-build.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/o2.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/jquery.browser.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/jquery.carouFredSel-packed.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/snap.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/jquery.touchSwipe.min.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/engine.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/prettify.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://nerds.airbnb.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://nerds.airbnb.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.6.1">
+<link rel="shortlink" href="http://nerds.airbnb.com/?p=174448434">
+<script type="text/javascript" data-cfasync="false">
+  //<![CDATA[
+    (function() {
+      var shr = document.createElement('script');
+      shr.setAttribute('data-cfasync', 'false');
+      shr.src = 'https://dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js';
+      shr.type = 'text/javascript'; shr.async = 'true';
+      shr.onload = shr.onreadystatechange = function() {
+        var rs = this.readyState;
+        if (rs && rs != 'complete' && rs != 'loaded') return;
+        var apikey = '512a604ca50739f1534581cf384cfd7b';
+        try { Shareaholic.init(apikey); } catch (e) {}
+      };
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(shr, s);
+    })();
+  //]]>
+</script>
+
+<!-- Shareaholic Content Tags -->
+<meta name="shareaholic:site_name" content="Airbnb Engineering">
+<meta name="shareaholic:language" content="en-US">
+<meta name="shareaholic:url" content="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/">
+<meta name="shareaholic:keywords" content="code">
+<meta name="shareaholic:article_published_time" content="2013-01-30T03:17:00+00:00">
+<meta name="shareaholic:article_modified_time" content="2013-10-23T21:29:35+00:00">
+<meta name="shareaholic:article_author_name" content="Spike Brehm">
+<meta name="shareaholic:wp_version" content="7.0.4.3">
+<meta name="shareaholic:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/03/surfer-crossing.jpg">
+<!-- Shareaholic Content Tags End -->
+
+<!-- Shareaholic Open Graph Tags -->
+<meta property="og:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/03/surfer-crossing.jpg">
+<!-- Shareaholic Open Graph Tags End -->
+<meta property="og:image" content="http://i.ytimg.com/vi/9g5Kzj6TpPY/default.jpg"><link rel="Shortcut Icon" href="http://nerds.airbnb.com/wp-content/themes/platinum/images/favicon.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width">
+
+<script type="text/javascript" src="./Airbnb on making rendr_files/tab1ron.js"></script>
+<style type="text/css">.tk-magion-web{font-family:"magion-web",sans-serif;}.tk-brevia{font-family:"brevia",sans-serif;}.tk-ff-meta-serif-web-pro{font-family:"ff-meta-serif-web-pro",serif;}</style><link rel="stylesheet" href="http://use.typekit.net/c/4f7e4c/brevia:i3,ff-meta-serif-web-pro:i5:i7:n5:n7,magion-web:n4.Nz7:K:2,VbP:K:2,VbR:K:2,VbN:K:2,VbQ:K:2,NTX:K:2/d?3bb2a6e53c9684ffdc9a9afe1d5b2a6262b4be0bfc491ced4e51bafb2a4271d783a7a30e7c393c3ff831a5b188a1aed63ac696bd16e026c452d0898a007e0896d05112916c010ae837af7e87d79f6ced3eee926edad8cc"><script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<style>
+
+pre.prettyprint { padding: 6px;  word-wrap: break-word;}
+#content blockquote p {font-size: 22px;
+font-weight: bold;}
+
+#content .author-box p { font-size: 13px;
+line-height: 1.3em;
+width: 210px;}
+
+code {
+/* override O2 */
+background-color: transparent;
+border: none;
+padding: 0;
+}
+
+/* inputs */
+input {
+display: inline-block;
+width: 210px;
+height: 18px;
+padding: 4px;
+margin-top: 9px;
+margin-bottom: 9px;
+font-size: 13px;
+line-height: 18px;
+color: #5a5a5a;
+border: 1px solid #ccc;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000;
+box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000;
+-webkit-transition: border linear 0.2s,box-shadow linear 0.2s;
+-moz-transition: border linear 0.2s,box-shadow linear 0.2s;
+-ms-transition: border linear 0.2s,box-shadow linear 0.2s;
+-o-transition: border linear 0.2s,box-shadow linear 0.2s;
+transition: border linear 0.2s,box-shadow linear 0.2s;
+}
+
+#footer input[type="submit"] {
+font-weight: bold;
+display: inline-block;
+padding: 0.4em 1.2em;
+margin-top: 0;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+text-align: center;
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+text-transform: uppercase;
+vertical-align: middle;
+margin-bottom: 0;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+-webkit-box-shadow: inset 0 0 0.2em rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.2),0 0 0 #000;
+box-shadow: inset 0 0 0.2em rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.2),0 0 0 #000;
+background-color: #018fe1;
+background-image: -webkit-linear-gradient(top, #00aeff 0%,#018fe1 100%);
+background-image: -moz-linear-gradient(top, #00aeff 0%,#018fe1 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00aeff', endColorstr='#ff018fe1', GradientType=0);
+border: 1px solid rgba(0,0,0,0.2);
+border-color: #0195eb #0083c7 #0175b8 #0083c7;
+font-size: 12px;
+line-height: 16px;
+color: #fff;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.2);
+}
+
+/* featured image carousel */
+
+
+/* tech-talks */
+.posts-list .category-tech-talks.entry  a[rel~="bookmark"] { background: black; overflow: hidden; height: 321px; }
+.posts-list .category-tech-talks img {position: relative; top: -20px;}
+
+.typekit-badge { display: none !important; }
+blockquote p { padding-left: 25px; font-style: italic; }
+
+</style><script type="text/javascript" src="./Airbnb on making rendr_files/shareaholic_tools.js" data-cfasync="false" async=""></script><style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style><link rel="stylesheet" type="text/css" href="./Airbnb on making rendr_files/share_buttons.css" id="share_buttons_css"><script>window["_GOOG_TRANS_EXT_VER"] = "1";</script></head>
+<body class="single single-post postid-174448434 single-format-standard full-width-content" style="zoom: 1;">
+
+
+<div class="snap-drawers" style="display: none;">
+	<div class="snap-drawer snap-drawer-left" id="menu-left">
+		<div id="nav_menu-3" class="widget widget_nav_menu"><div class="menu-left-nav-container"><ul id="menu-left-nav" class="menu nav"><li id="menu-item-176593911" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-176593911"><a href="http://nerds.airbnb.com/">Airbnb Nerds</a></li>
+<li id="menu-item-176593906" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-176593906 odd"><a href="http://nerds.airbnb.com/code/">Code</a></li>
+<li id="menu-item-176593910" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593910"><a href="http://nerds.airbnb.com/data/">Data</a></li>
+<li id="menu-item-176593909" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593909 odd"><a href="http://nerds.airbnb.com/news/">News</a></li>
+<li id="menu-item-176593907" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593907"><a href="http://nerds.airbnb.com/tech-talks/">Tech Talks</a></li>
+<li id="menu-item-176593908" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593908 odd"><a href="http://nerds.airbnb.com/open-source/">Open Source</a></li>
+</ul></div></div></div>	</div>
+
+
+
+<!-- posts -->
+<div id="basis" class="snap-content" data-snap-ignore="true">
+
+<div id="header"><div class="container"><div id="title-area" class="span3"><a id="open-left" href="javascript:void(null)">Toogle menu</a><p id="title"><a href="http://nerds.airbnb.com/" title="Airbnb Engineering" class="icon icon-airbnb">Airbnb Engineering</a><span id="description">Nerds</span></p></div><!-- end #title-area --><div class="widget-area span9"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-top-nav-container"><ul id="menu-top-nav" class="menu genesis-nav-menu nav"><li id="menu-item-176593901" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-176593901"><a href="http://nerds.airbnb.com/code/">Code</a></li>
+<li id="menu-item-176593902" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593902"><a href="http://nerds.airbnb.com/tech-talks/">Tech Talks</a></li>
+<li id="menu-item-176593903" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593903"><a href="http://nerds.airbnb.com/open-source/">Open Source</a></li>
+<li id="menu-item-176593904" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593904"><a href="http://nerds.airbnb.com/news/">News</a></li>
+<li id="menu-item-176593905" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593905"><a href="http://nerds.airbnb.com/data/">Data</a></li>
+</ul></div></div></div>
+</div><!-- end .widget-area --><div id="topswipe"><div class="swipe-wrap"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-top-nav-container"><ul id="menu-top-nav-1" class="menu nav" style="width: 5px;"><li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-176593901 swipeli-0"><a href="http://nerds.airbnb.com/code/">Code</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593902 swipeli-1"><a href="http://nerds.airbnb.com/tech-talks/">Tech Talks</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593903 swipeli-2"><a href="http://nerds.airbnb.com/open-source/">Open Source</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593904 swipeli-3"><a href="http://nerds.airbnb.com/news/">News</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593905 swipeli-4"><a href="http://nerds.airbnb.com/data/">Data</a></li>
+</ul></div></div></div>
+<div class="clear"></div></div><div class="gr-left"></div><div class="gr-right"></div></div></div></div><!--end #header-->
+
+<!-- promo -->
+		<div id="promo-single">
+			<div class="wrapper">
+				<div class="caroufredsel_wrapper" style="display: block; text-align: start; float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: auto; width: 1366px; height: 530px; margin: 0px; overflow: hidden;"><ul id="mycarousel-single" style="text-align: left; float: none; position: absolute; top: 0px; right: auto; bottom: auto; left: 0px; margin: 0px; width: 4098px; height: 510px;">
+					<li style="width: 1366px;">
+						<img src="./Airbnb on making rendr_files/1375391944surfercrossing.jpg" alt="">
+						<span class="shadow"></span>
+						<span class="slider-text">
+							<span class="post-cat">Code</span>
+							<span class="post-titles">
+								<span class="post-title"><a href="./Airbnb on making rendr_files/Airbnb on making rendr.html">Our First Node.js App: Backb<dfn class="dictionary-of-numbers">one on the Client </dfn>and Server</a></span>
+								<span class="post-subtitle">by Spike Brehm</span>							</span>
+						</span>
+					</li>
+				</ul></div>
+			</div>
+		</div>
+		
+<!-- /promo -->
+
+
+<div id="contents">
+<div id="content-sidebar-wrap"><div id="content" class="hfeed">	<div class="container post-with-hires-image">
+		<div class="row space1" id="post-title">
+			<div class="span12">
+								<h1 class="entry-title">Our First Node.js App: Backbone on the Client and Server</h1> 
+							</div>
+		</div>
+	
+				
+		<!-- row -->
+		<div class="row space2" id="post-cnt">
+			<div class="span3" id="block-with-author">
+				<div id="single__author-avatar"><div class="author-box"><div><img alt="" src="./Airbnb on making rendr_files/506c3ef38d591b77dd7f44e17b68ce23" class="avatar avatar-65 photo" height="65" width="65"> <strong>About Spike Brehm</strong><br></div></div></div>
+				<div id="single__post-info">
+					<div class="post-info-label">Published in:</div>
+					<div class="post-meta"><span class="post-cats"><span class="categories"><a href="http://nerds.airbnb.com/code/" title="View all posts in Code" rel="category tag">Code</a></span>  </span></div><div class="post-info"><br>by <span class="author vcard"><span class="fn"><a href="http://nerds.airbnb.com/author/spike-brehm/" title="Spike Brehm" rel="author">Spike Brehm</a></span></span> <span class="date published time" title="2013-01-30T03:17:00+00:00">January 30, 2013</span>  </div>				</div>
+			</div>
+		
+			<div class="span9" id="single__post">
+				<!-- post -->
+				<div class="post-174448434 post type-post status-publish format-standard hentry category-code entry">
+						<div id="post-content">
+							<div class="post-info"><br>by <span class="author vcard"><span class="fn"><a href="http://nerds.airbnb.com/author/spike-brehm/" title="Spike Brehm" rel="author">Spike Brehm</a></span></span> <span class="date published time" title="2013-01-30T03:17:00+00:00">January 30, 2013</span>  </div>							<p class="p1">
+  Here at Airbnb, we’ve been looking curiously at <a href="http://nodejs.org/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://nodejs.org&#39;]);">Node.js</a> for a long time now.&nbsp; We’ve used it for odds and ends, such as the build process for some of our libraries, but we hadn’t built anything production-scale. &nbsp;Until now.
+</p>
+<h2>The Problem</h2>
+<p>There’s a disconnect in the way we build rich web apps these days.&nbsp; In order to provide a snappy, fluid UI, more and more of the application logic is moving to the client.&nbsp; In some cases, this promotes a nice, clean separation of concerns, with the server merely being a set of JSON endpoints and a place to host static files. &nbsp;This is the approach we’ve taken recently, using Backbone.js + Rails.</p>
+<p>But all too often, it’s not so clean; application logic is somewhat arbitrarily split between client and server, or in some cases needs to be duplicated on both sides.&nbsp; Think date and currency formatting. &nbsp;You tend to have a Ruby (Python, Java, PHP) library that you’ve been using for awhile, but all of a sudden you have to replicate this logic in a JavaScript library. &nbsp;The same is true for the view layer; some of your markup lives in Mustache or Handlebars templates for the client, while other needs to live in ERB or Haml so they can be rendered on the server for SEO or other reasons.</p>
+<p>If you’ve seen my <a href="https://www.youtube.com/watch?v=9g5Kzj6TpPY" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.youtube.com&#39;]);">tech talk</a>&nbsp;or <a href="http://nerds.airbnb.com/slides-and-video-from-spike-brehms-tech-talk/">last blog post</a>, then all this should sound familiar.&nbsp; Our thesis, <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-10519200s dictionary-of-numbers-processed">four months</dfn> ago when I gave this talk, was that, in theory, if we have a JavaScript runtime on the server, we should be able to pull most of this application logic back down to the server in a way that can be shared with the client.&nbsp; Then, as a developer you just focus on writing application code. &nbsp;Your great new product can run on both sides of the wire, serving up real HTML on first pageload, but then kicking off a client-side JavaScript app.&nbsp; In other words, the <a href="http://nerds.airbnb.com/wp-content/uploads/2012/10/shared-js-app.png.scaled1000.png">Holy Grail</a>.</p>
+<p>This Holy Grail approach is something we had dreamt about for a long time, but not having any experience with Node.js, we didn’t quite know where to start. Luckily, we hired our first engineer who has experience running Node.js at large scale in production; meet <a href="https://www.airbnb.com/users/show/1472643">Barbara Raitz</a>, who comes to us from LinkedIn, where she built out the API that powers their mobile apps using Node.js. Now that we had some in-house Node expertise, Barbara and I set out to create our solution for the Holy Grail.</p>
+<h2>Our Solution</h2>
+<p>I’m proud to announce that we’ve launched our first Holy Grail app into production!&nbsp; We’ve successfully pulled Backb<dfn class="dictionary-of-numbers">one onto the server </dfn>using Node.js, tied together with a library we’re calling Rendr.&nbsp; We haven’t open-sourced Rendr quite yet, but you can expect it in the coming months, once we’ve had a chance to build a few more apps with it and decouple it from our use case a bit.</p>
+<p>So, the app: we re-launched our <a href="https://m.airbnb.com/">Mobile Web</a> site using this new stack, replacing the Backbone.js + Rails stack that it used previously. &nbsp;You may have been using it for over a month without even knowing. &nbsp;It looks exactly the same as the app it replaced, however initial pageload feels drastically quicker&nbsp;because we serve up real HTML instead of waiting for the client to download JavaScript before rendering. &nbsp;Plus, it is fully crawlable by search engines.</p>
+<div class="p_embed p_image_embed">
+  <img alt="Airbnb Mobile website screenshot" src="./Airbnb on making rendr_files/Screen_Shot_2013-01-22_at_9.56.34_AM.png.scaled500.png" width="408" height="746">
+</div>
+<p>The performance gains are an awesome side effect of this design. &nbsp;In testing, we’re using a metric we call “time to content”, inspired by Twitter’s&nbsp;<a href="http://engineering.twitter.com/2012/05/improving-performance-on-twittercom.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://engineering.twitter.com&#39;]);">time to first tweet</a>. &nbsp;It measures the time it takes for the user to see real content on the screen. &nbsp;Let’s take our search results page, for example. &nbsp;Under the old design, before any search results could be rendered in the client, first all of the external JavaScript files had to download, evaluate, and execute. &nbsp;Then, the Backb<dfn class="dictionary-of-numbers">one router would look </dfn>at the URL to determine which page to render, and thus which data to fetch. &nbsp;Then, our app would make a request to the API for search results. &nbsp;Finally, once the API request returned with our data, we could render the page of search results. &nbsp;Keep in mind all of this has most likely happened over a mobile connection, which tends to have very high latency. &nbsp;All of these steps add up to a “time to content” that can be more <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-10s dictionary-of-numbers-processed">10 seconds</dfn> in extreme cases.</p>
+<p>Compare this with serving the full search results HTML from the server. &nbsp;Over a mobile connection, it may take <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-2s dictionary-of-numbers-processed">2 seconds</dfn> to download the initial page of HTML, but it can be immediately rendered. &nbsp;Even as the rest of the JavaScript application is being downloaded, the user can interact with the page. &nbsp;It feels<dfn class="dictionary-of-numbers"> 5x faster</dfn>.</p>
+<h2>Gimme the Deets!</h2>
+<p>We built upon tools we already know and love: <a href="http://backbonejs.org/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://backbonejs.org&#39;]);">Backbone.js</a> and <a href="http://handlebarsjs.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://handlebarsjs.com&#39;]);">Handlebars.js</a>. &nbsp;We ended up with a hybrid of Rails, Backbone, and Node conventions. &nbsp;For example, the app’s directory structure will look familiar to Rails users (minus <code>collections</code> and <code>models</code>):</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">|</span><span class="pln"> app
+</span><span class="pun">|--</span><span class="pln"> collections
+</span><span class="pun">|--</span><span class="pln"> controllers
+</span><span class="pun">|--</span><span class="pln"> helpers
+</span><span class="pun">|--</span><span class="pln"> models
+</span><span class="pun">|--</span><span class="pln"> templates
+</span><span class="pun">|--</span><span class="pln"> views</span></code></pre>
+<p>In a typical Backb<dfn class="dictionary-of-numbers">one app</dfn>, “controller” logic—fetching the appropriate data and instantiating view(s) for a particular page—lives in methods on your instance of <code>Backbone.Router</code>. &nbsp;As your app grows, however, the router quickly becomes bloated with all of these route handlers. &nbsp;This is why we’ve created real controller objects, which group related actions into more manageable chunks. &nbsp;This abstraction also allows us to more easily add before and after filters if we want to. &nbsp;Here’s what a users controller might look like:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="com"># app/controllers/users_controller.coffee</span><span class="pln">
+
+</span><span class="kwd">module</span><span class="pun">.</span><span class="pln">exports </span><span class="pun">=</span><span class="pln">
+  index</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">params</span><span class="pun">,</span><span class="pln"> callback</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+    spec </span><span class="pun">=</span><span class="pln">
+      collection</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">collection</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Users'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">params</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">params</span><span class="pun">}</span><span class="pln">
+    </span><span class="lit">@app</span><span class="pun">.</span><span class="pln">fetch spec</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">err</span><span class="pun">,</span><span class="pln"> results</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+      callback</span><span class="pun">(</span><span class="pln">err</span><span class="pun">,</span><span class="pln"> results</span><span class="pun">)</span><span class="pln">
+
+  show</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">params</span><span class="pun">,</span><span class="pln"> callback</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+    spec </span><span class="pun">=</span><span class="pln">
+      model</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">model</span><span class="pun">:</span><span class="pln"> </span><span class="str">'User'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">params</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">params</span><span class="pun">}</span><span class="pln">
+    </span><span class="lit">@app</span><span class="pun">.</span><span class="pln">fetch spec</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">err</span><span class="pun">,</span><span class="pln"> results</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+      callback</span><span class="pun">(</span><span class="pln">err</span><span class="pun">,</span><span class="pln"> results</span><span class="pun">)</span></code></pre>
+<p>First off, you’ll notice we’re using <a href="http://coffeescript.org/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://coffeescript.org&#39;]);">CoffeeScript</a>. &nbsp;It’s a bit controversial, I know, but we’re fans. &nbsp;Secondly, notice the <code>module.exports =</code> at the top. &nbsp;That’s a tell-tale sign of a CommonJS module. &nbsp;CommonJS is what Node.js uses to require modules, and we’re able to reuse the same syntax in the client using <a href="https://github.com/sstephenson/stitch" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);">Stitch</a>, which was writ<dfn class="dictionary-of-numbers">ten by the </dfn><a href="https://twitter.com/sstephenson" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" target="_blank">Sam Stephenson</a>, the same fellow who also wrote <a href="https://github.com/sstephenson/sprockets" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);">Sprockets</a> for Rails.</p>
+<p>Now, keep in mind that this controller code gets executed on both the client and the server. &nbsp;For example, if a user lands on “/users/1234″, and a route exists that routes that to <code>users#show</code> (more on that below), then the <code>show</code> action will be invoked.</p>
+<p>The <code>@app.fetch</code> you see is our way of encapsulating resource fetching. &nbsp;In this case, a <code>User</code> model with id<dfn class="dictionary-of-numbers"> 1234 will be fetched </dfn>from the API, instantiated, and passed to the view. &nbsp;Why not just instantiate the User model yourself in the controller? &nbsp;You could do that, but the <code>fetcher</code> provides a layer of indirection which allows us to do a bunch of fancy caching in both the client and the server-side. &nbsp;I’ll leave out the details for now, but that could be the subject of a future blog post!</p>
+<h2>Routing Requests</h2>
+<p>We need to be able to match a certain URL to a controller/action pair both on the client-side and the server-side. &nbsp;Inspired by Rails, we have a routes file that specifies these routes and any additional route parameters.</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="com"># app/routes.coffee</span><span class="pln">
+
+</span><span class="kwd">module</span><span class="pun">.</span><span class="pln">exports </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">match</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+  match </span><span class="str">'users/:id'</span><span class="pun">,</span><span class="pln">    </span><span class="str">'users#show'</span><span class="pln">
+  match </span><span class="str">'users'</span><span class="pun">,</span><span class="pln">        </span><span class="str">'users#index'</span><span class="pln">
+
+  match </span><span class="str">'listings/:id'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'listings#show'</span><span class="pln">
+  match </span><span class="str">'search'</span><span class="pun">,</span><span class="pln">       </span><span class="str">'listings#search'</span><span class="pun">,</span><span class="pln"> maxAge</span><span class="pun">:</span><span class="pln"> </span><span class="lit">900</span></code></pre>
+<p>Notice the optional parameter <code>maxAge</code> on the <code>listings#search</code> route; this is used to set caching headers. &nbsp;You can add any arbitrary parameters here and access them in the router. &nbsp;We also plan to make this more advanced as needed, such as adding parameter requirements.</p>
+<p>Our routes file format is heavily inspired by a really interesting project called&nbsp;<a href="https://github.com/chaplinjs/chaplin" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);">ChaplinJS</a>. &nbsp;Chaplin is an application framework built on top of Backbone. &nbsp;Chaplin is under active development and is quite well maintained; definitely worth a look if you want some more structure in your Backb<dfn class="dictionary-of-numbers">one app</dfn>.</p>
+<p>These routes are parsed by a router, which delegates incoming requests to particular controllers. &nbsp;We have a <code>ClientRouter</code>, which delegates to <code>Backbone.History</code> and translates pushState events to controller actions, and a <code>ServerRouter</code>, which does the same for Express requests; both extend <code>BaseRouter</code> to share common logic.</p>
+<p>We serve the app using <a href="http://expressjs.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://expressjs.com&#39;]);">Express</a>, the de-facto web server for Node.js.</p>
+<h2>Views</h2>
+<p>In Rendr, your views extend our <code>BaseView</code>, which in turn extends&nbsp;<code>Backbone.View</code>, adding a number of methods that allow it to easily render on both the server and the client. Here’s an example <code>ListingsIndexView</code> for you:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="com"># app/views/listing/index.coffee</span><span class="pln">
+
+</span><span class="typ">BaseView</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'rendr/base/view'</span><span class="pun">)</span><span class="pln">
+_ </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'underscore'</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">module</span><span class="pun">.</span><span class="pln">exports </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">ListingsIndexView</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">BaseView</span><span class="pln">
+  </span><span class="com"># Straight outta Backbone.View</span><span class="pln">
+  tagName</span><span class="pun">:</span><span class="pln">    </span><span class="str">'section'</span><span class="pln">
+  className</span><span class="pun">:</span><span class="pln">  </span><span class="str">'listing clearfix'</span><span class="pln">
+
+  events</span><span class="pun">:</span><span class="pln">
+    </span><span class="str">'click .book_it'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'clickBookIt'</span><span class="pln">
+
+  clickBookIt</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+    </span><span class="pun">...</span><span class="pln">
+
+  </span><span class="com"># Custom Rendr methods</span><span class="pln">
+  postRender</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+    </span><span class="lit">@createSlideshow</span><span class="pun">()</span><span class="pln">
+
+  getTemplateData</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+    _</span><span class="pun">.</span><span class="pln">extend </span><span class="kwd">super</span><span class="pun">,</span><span class="pln">
+      bullets</span><span class="pun">:</span><span class="pln"> _</span><span class="pun">.</span><span class="pln">first</span><span class="pun">(</span><span class="lit">@model</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'picture_urls'</span><span class="pun">),</span><span class="pln"> </span><span class="lit">50</span><span class="pun">)</span><span class="pln">
+
+  createSlideshow</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-&gt;</span><span class="pln">
+    </span><span class="pun">...</span></code></pre>
+<p>First you’ll notice that we require <code>BaseView</code> with <code>require('rendr/base/view')</code>. &nbsp;This CommonJS module path is standard in Node.js for requiring files within NPM packages, and using a trick in our Stitch packaging, we can use the same path in the client.</p>
+<p>In addition to the typical methods and properties from <code>Backbone.View</code>, we’ve added some custom ones to hook into the view’s lifecycle. &nbsp;Notice the <code>#postRender()</code> method; this gets called only in the client-side, right after rendering. &nbsp;This is where you would put any code that needs to touch the DOM, such as initializing jQuery plugins like slideshows or sliders.</p>
+<p>Each view has a Handlebars template associated with it, and a <code>View#getHtml()</code> method. &nbsp;On the server, we simply call <code>#getHtml()</code> and return the resulting string. &nbsp;On the client, <code>View#render()</code> calls <code>#getHtml()</code> and updates the innerHTML of its element. We also have a&nbsp;<code>#getTemplateData()</code>&nbsp;method, which by default returns&nbsp;<code>@model.toJSON()</code>. &nbsp;You can override it to act as a view-model, adding any view-specific properties to pass to the template for rendering.</p>
+<p>We decided on an entirely string-based templating approach, preferring not to depend upon a DOM on the server. &nbsp;<dfn class="dictionary-of-numbers">One result of this </dfn>is that it becomes necessary to push all HTML manipulation either into the Handlebars template or into a custom&nbsp;<code>#getHtml()</code>&nbsp;method. &nbsp;In other words, you cannot rely on any DOM manipulation code to construct your markup; if you have a habit of appending child views, loading spinners, or any other markup in&nbsp;<code>#render()</code>, get used to pushing that down to the template. Now, here’s the tricky part: when we generate a page of HTML from a hierarchy of views on the server, we also have to ensure that once it reaches the client, all of the views’ event handlers are properly bound to the DOM, and we have living, breathing view instances that can respond to user interactions. &nbsp;Our approach was to decorate the generated HTML with data-attributes, which specify which view class it represents. &nbsp;Here’s an example from <dfn class="dictionary-of-numbers">one of our listing </dfn>pages:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;section</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"listing"</span><span class="pln"> </span><span class="atn">data-view</span><span class="pun">=</span><span class="atv">"listings/index"</span><span class="pln"> </span><span class="atn">data-model_id</span><span class="pun">=</span><span class="atv">"687210"</span><span class="pln"> </span><span class="atn">data-model_name</span><span class="pun">=</span><span class="atv">"listing"</span><span class="tag">&gt;</span><span class="pln">
+  </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"slideshow"</span><span class="tag">&gt;</span><span class="pln">
+    ...
+  </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+
+  </span><span class="tag">&lt;section</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"details tab_panel"</span><span class="pln"> </span><span class="atn">data-view</span><span class="pun">=</span><span class="atv">"listings/details"</span><span class="pln"> </span><span class="atn">data-model_id</span><span class="pun">=</span><span class="atv">"687210"</span><span class="pln"> </span><span class="atn">data-model_name</span><span class="pun">=</span><span class="atv">"listing"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;ul&gt;</span><span class="pln">
+      ...
+    </span><span class="tag">&lt;/ul&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/section&gt;</span><span class="pln">
+
+  </span><span class="tag">&lt;section</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"user"</span><span class="pln"> </span><span class="atn">data-view</span><span class="pun">=</span><span class="atv">"listings/user"</span><span class="pln"> </span><span class="atn">data-model_id</span><span class="pun">=</span><span class="atv">"2088962"</span><span class="pln"> </span><span class="atn">data-model_name</span><span class="pun">=</span><span class="atv">"user"</span><span class="pln"> </span><span class="atn">data-lazy</span><span class="pun">=</span><span class="atv">"true"</span><span class="tag">&gt;</span><span class="pln">
+    ...
+  </span><span class="tag">&lt;/section&gt;</span><span class="pln">
+
+</span><span class="tag">&lt;/section&gt;</span></code></pre>
+<p>On pageload, we find all DOM elements with the <code>data-view="some_view_class"</code> attribute, instantiate view objects for each, and reconstruct the view hierarchy. &nbsp;That way, events are properly bound, and we preserve any parent-child relationships between our view objects so they can lis<dfn class="dictionary-of-numbers">ten to and emit </dfn>events on each other.</p>
+<p>Sounds easy enough, right? &nbsp;Well, it ended up being more difficult to solve than we expected. &nbsp;<dfn class="dictionary-of-numbers">One of the problems </dfn>we ran into is that all data needed to instantiate a view needs to be extractable from the DOM. &nbsp;You’ll notice in the above code snippet that we also have the data-attributes <code>data-model_name</code> and <code>data-model_id</code>. &nbsp;This allows us to pass in the correct model or collection into any view, fetching it from the client-side model cache (remember <code>@app.fetch</code> from our controller? it handles this for us). &nbsp;This is the pattern we came up with in order to ship; a better approach would be to assign a unique id to each view instance on the server, and have some sort of mapping from view id to view data which we could read from in the client, rather than looking up from the DOM.</p>
+<p>There’s another way to ensure views are properly bound to the DOM, which we decided against. &nbsp;It involves discarding the server-generated HTML upon pageload, regenerating the view hierarchy in the client, and swapping the view DOM tree into the page. &nbsp;The downside is the potential for weird UX interactions if, for example, a user starts to interact with elements on the page that then get destroyed and replaced.</p>
+<h2>NestedView</h2>
+<p>We really like enforcing encapsulation within our views. &nbsp;We also wanted an easy way to declaratively nest subviews within any view. &nbsp;We came up with a nifty way of achieving both using Handlebars helpers. &nbsp;Check out this slightly contrived example.</p>
+<p>Given these views:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">BaseView</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'rendr/base/view'</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">IndexView</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">BaseView</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">UserDetailView</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">BaseView</span></code></pre>
+<p>and these templates, <code>app/templates/index.hbs</code>:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;h1&gt;</span><span class="pln">Hello, {{user.name}}.</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
+{{view "users/detail" context=user}}`</span></code></pre>
+<p><code>app/templates/user_detail_view.hbs</code>:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;li&gt;</span><span class="pln">Name: {{name}}</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+</span><span class="tag">&lt;li&gt;</span><span class="pln">Email: {{email}}</span><span class="tag">&lt;/li&gt;</span></code></pre>
+<p>and this data:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">{</span><span class="pln">
+  </span><span class="str">"user"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"name"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Spike"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"email"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"spike@example.info"</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>calling <code>View#getHtml()</code> on the parent returns this HTML:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">data-view</span><span class="pun">=</span><span class="atv">"index_view"</span><span class="pln"> </span><span class="atn">data-cid</span><span class="pun">=</span><span class="atv">"view1"</span><span class="tag">&gt;</span><span class="pln">
+  </span><span class="tag">&lt;h1&gt;</span><span class="pln">Hello, Spike.</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
+  </span><span class="tag">&lt;ul</span><span class="pln"> </span><span class="atn">data-view</span><span class="pun">=</span><span class="atv">"user_detail_view"</span><span class="pln"> </span><span class="atn">data-cid</span><span class="pun">=</span><span class="atv">"view2"</span><span class="tag">&gt;</span><span class="pln">
+    </span><span class="tag">&lt;li&gt;</span><span class="pln">Name: Spike</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+    </span><span class="tag">&lt;li&gt;</span><span class="pln">Email: spike@example.info</span><span class="tag">&lt;/li&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/ul&gt;</span><span class="pln">
+</span><span class="tag">&lt;/div&gt;</span></code></pre>
+<p>So, you can arbitrarily nest views using a simple Handlebars helper, and simply call <code>#getHtml()</code> on the top-most view to get the entire hierarchy’s HTML. &nbsp;Nifty, eh?</p>
+<p>We found this useful enough as a standal<dfn class="dictionary-of-numbers">one library that we</dfn>’ve pulled it out into NestedView. &nbsp;<a href="https://github.com/spikebrehm/nested-view" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);">Check it out on Github</a>.</p>
+<h2>Models &amp; Collections</h2>
+<p>Now onto models and collections.</p>
+<p>Rendr has a <code>BaseModel</code> and <code>BaseCollection</code>, which extend <code>Backbone.Model</code> and <code>Backbone.Collection</code>. &nbsp;Here’s the most basic <code>User</code> model:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="com"># app/models/user</span><span class="pln">
+
+</span><span class="typ">BaseModel</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'rendr/base/model'</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">module</span><span class="pun">.</span><span class="pln">exports </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">User</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">BaseModel</span><span class="pln">
+  url</span><span class="pun">:</span><span class="pln"> </span><span class="str">'/users/:id'</span></code></pre>
+<p>Pretty thin, right? &nbsp;Of course, you can add whatever custom methods you want to your models.</p>
+<p>The important part is the <code>url</code> property. Rendr expects to get all of its data from a JSON API over HTTP. &nbsp;This could be on the same server, but in our case, it’s a preexisting API that powers a number of other apps. &nbsp;The <code>url</code> specified above points to the path on this API server.</p>
+<p>Calling Backbone’s CRUD methods on the model or collection (<code>#save()</code>, <code>#fetch()</code>, <code>#destroy()</code>, and now <code>#update()</code> in the latest Backbone) will dispatch a request to this API. &nbsp;We override <code>Backbone.sync()</code> such that when&nbsp;these methods&nbsp;are called from the server-side, Rendr sends an HTTP request directly to the API server. &nbsp;When called from the client, Rendr will prepend <code>/api</code> to the model/collection URL, proxying the request to the API through the Rendr server. &nbsp;This allows us to do any additional formatting of the request or response, and to centralize the API request and response handling logic, at the expense of some network time.</p>
+<h2>Sprechen Sie Deutsch?</h2>
+<p>Internationalization (I<dfn class="dictionary-of-numbers">18n)</dfn> is incredibly important to us here at Airbnb. &nbsp;We support 30+ languages, and have localized web sites all around the world. &nbsp;We’ve been performing I<dfn class="dictionary-of-numbers">18n in JavaScript </dfn>for some time, but the need arose to make a more-robust library that can run in CommonJS environments as well. &nbsp;That’s led to <a href="http://airbnb.github.com/polyglot.js" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;download&#39;,&#39;http://airbnb.github.com/polyglot.js&#39;]);">Polyglot.js</a>, our open source JavaScript I<dfn class="dictionary-of-numbers">18n library</dfn>. &nbsp;The extra special sauce is our pluralization logic. &nbsp;Here’s an excerpt from the docs:</p>
+<blockquote>
+<p>In English (and German, Spanish, Italian, and a few others) there are only <dfn class="dictionary-of-numbers">two plural forms</dfn>: singular and not-singular.</p>
+<p>However, some languages get a bit more complicated. In Czech, there are <dfn class="dictionary-of-numbers">three separate forms</dfn>:<dfn class="dictionary-of-numbers"> 1, 2 through </dfn>4, and<dfn class="dictionary-of-numbers"> 5 and up</dfn>. Russian is even crazier.</p>
+</blockquote>
+<p>Polyglot.js abstracts all that away from you, and just requires you to provide translations for whichever locales you’re interested in.</p>
+<h2>What’s Next?</h2>
+<p>There’s still a lot of work to be done. &nbsp;Before we release Rendr, we need to build a few more applications with it and modularize the code a bit more. &nbsp;Luckily we have a growing need for rich JavaScript apps that are fast and SEO-friendly here at Airbnb. &nbsp;Keep an eye out here and follow <a href="https://twitter.com/AirbnbNerds" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);">@AirbnbNerds</a>&nbsp;and <a href="https://twitter.com/spikebrehm" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);">@spikebrehm</a> for more updates.</p>
+<p>I’ll be speaking more about Rendr and Airbnb’s experiences building rich JavaScript apps at <a href="http://html5devconf.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://html5devconf.com&#39;]);">HTML<dfn class="dictionary-of-numbers">5DevConf</dfn></a> on April 1<dfn class="dictionary-of-numbers">-2 in San Francisco</dfn>. &nbsp;It’s shaping up to be a great conference. &nbsp;Sign up if you haven’t already!</p>
+<div class="shareaholic-canvas" data-app-id="95038" data-app="share_buttons" data-title="Our First Node.js App: Backbone on the Client and Server" data-link="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/" data-summary="by Spike Brehm Here at Airbnb, we&#39;ve been looking curiously at Node.js for a long time now. We&#39;ve used it for odds and ends, such as the build process for some of our libraries, but we hadn&#39;t built anything production-scale. Until now. The Problem..."><div class="shareaholic-share-buttons-container shareaholic-ui flat mini side-counter" style="height: auto;"><div class="shareaholic-share-buttons-wrapper shareaholic-ui"><ul class="shareaholic-share-buttons" style=""><li data-service="facebook" class="shareaholic-share-button has-shares" data-original-title="Facebook" style="display: list-item;"><span class="share-button-counter">51</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-facebook"></i><span class="share-button-verb">Share</span></a></li><li data-service="twitter" class="shareaholic-share-button has-shares" data-original-title="Twitter" style="display: list-item;"><span class="share-button-counter">1.19k</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-twitter"></i><span class="share-button-verb">Share</span></a></li><li data-service="linkedin" class="shareaholic-share-button has-shares" data-original-title="LinkedIn" style="display: list-item;"><span class="share-button-counter">52</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-linkedin"></i><span class="share-button-verb">Share</span></a></li><li data-service="yc_hacker_news" class="shareaholic-share-button" data-original-title="YC Hacker News" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-yc_hacker_news"></i><span class="share-button-verb">Share</span></a></li><li data-service="google_plus" class="shareaholic-share-button" data-original-title="Google+" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-google_plus"></i><span class="share-button-verb">Share</span></a></li><li data-service="delicious" class="shareaholic-share-button has-shares" data-original-title="Delicious" style="display: list-item;"><span class="share-button-counter">4</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-delicious"></i><span class="share-button-verb">Share</span></a></li><li data-service="tumblr" class="shareaholic-share-button" data-original-title="Tumblr" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-tumblr"></i><span class="share-button-verb">Share</span></a></li><li data-service="all" class="shareaholic-share-button" data-original-title="More Options" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-all"></i><span class="share-button-verb">Share</span></a></li></ul></div></div></div>							<div class="post-meta"><span class="categories"><a href="http://nerds.airbnb.com/code/" title="View all posts in Code" rel="category tag">Code</a></span>  </div>						</div>
+						<h3 id="single__respond-title"><dfn class="dictionary-of-numbers">13 comments</dfn></h3>
+						<div class="author-box"><div><img alt="" src="./Airbnb on making rendr_files/506c3ef38d591b77dd7f44e17b68ce23" class="avatar avatar-65 photo" height="65" width="65"> <strong>About Spike Brehm</strong><br></div></div>								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Speak Your Mind <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://nerds.airbnb.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+																										<p class="comment-form-author"><input id="author" name="author" type="text" value="" size="30" tabindex="1" aria-required="true"><label for="author">Name</label> <span class="required">*</span></p>
+<p class="comment-form-email"><input id="email" name="email" type="text" value="" size="30" tabindex="2" aria-required="true"><label for="email">Email</label> <span class="required">*</span></p>
+<p class="comment-form-url"><input id="url" name="url" type="text" value="" size="30" tabindex="3"><label for="url">Website</label></p>
+												<div class="wmd-panel"><div id="wmd-button-barcomment"><ul id="wmd-button-rowcomment" class="wmd-button-row"><li class="wmd-button" id="wmd-bold-buttoncomment" title="Strong &lt;strong&gt; Ctrl+B" style="left: 0px;"><span style="background-position: 0px 0px;"></span></li><li class="wmd-button" id="wmd-italic-buttoncomment" title="Emphasis &lt;em&gt; Ctrl+I" style="left: 25px;"><span style="background-position: -20px 0px;"></span></li><li class="wmd-spacer wmd-spacer1" id="wmd-spacer1comment"></li><li class="wmd-button" id="wmd-link-buttoncomment" title="Hyperlink &lt;a&gt; Ctrl+L" style="left: 75px;"><span style="background-position: -40px 0px;"></span></li><li class="wmd-button" id="wmd-quote-buttoncomment" title="Blockquote &lt;blockquote&gt; Ctrl+Q" style="left: 100px;"><span style="background-position: -60px 0px;"></span></li><li class="wmd-button" id="wmd-code-buttoncomment" title="Code Sample &lt;pre&gt;&lt;code&gt; Ctrl+K" style="left: 125px;"><span style="background-position: -80px 0px;"></span></li><li class="wmd-button" id="wmd-image-buttoncomment" title="Image &lt;img&gt; Ctrl+G" style="left: 150px;"><span style="background-position: -100px 0px;"></span></li><li class="wmd-spacer wmd-spacer2" id="wmd-spacer2comment"></li><li class="wmd-button" id="wmd-olist-buttoncomment" title="Numbered List &lt;ol&gt; Ctrl+O" style="left: 200px;"><span style="background-position: -120px 0px;"></span></li><li class="wmd-button" id="wmd-ulist-buttoncomment" title="Bulleted List &lt;ul&gt; Ctrl+U" style="left: 225px;"><span style="background-position: -140px 0px;"></span></li><li class="wmd-button" id="wmd-heading-buttoncomment" title="Heading &lt;h1&gt;/&lt;h2&gt; Ctrl+H" style="left: 250px;"><span style="background-position: -160px 0px;"></span></li><li class="wmd-button" id="wmd-hr-buttoncomment" title="Horizontal Rule &lt;hr&gt; Ctrl+R" style="left: 275px;"><span style="background-position: -180px 0px;"></span></li><li class="wmd-spacer wmd-spacer3" id="wmd-spacer3comment"></li><li class="wmd-button" id="wmd-undo-buttoncomment" title="Undo - Ctrl+Z" style="left: 325px;"><span style="background-position: -200px -20px;"></span></li><li class="wmd-button" id="wmd-redo-buttoncomment" title="Redo - Ctrl+Shift+Z" style="left: 350px;"><span style="background-position: -220px -20px;"></span></li><li class="wmd-button wmd-help-button" id="wmd-help-buttoncomment" title="Markdown Editing Help" style="right: 0px;"><span style="background-position: -240px 0px;"></span></li></ul></div><div id="wmd-button-bar-help" style="display: none;"> <p>To create code blocks or other preformatted text, indent by four spaces:</p>
+        <pre class="wmd-help"><span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>This will be displayed in a monospaced font. The first four 
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>spaces will be stripped off, but all other whitespace
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>will be preserved.
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>Markdown is turned off in code blocks:
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span> [This is not a link](http://example.com)
+</pre>
+        <p>
+            To create not a block, but an inline code span, use backticks:
+        </p>
+        <pre class="wmd-help">Here is some inline `code`.</pre> <p>For more help see <a href="http://daringfireball.net/projects/markdown/syntax" rel="no-follow"> http://daringfireball.net/projects/markdown/syntax</a></p></div><p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" tabindex="4" aria-required="true" placeholder="Leave a comment"></textarea></p><div id="wmd-previewcomment" class="wmd-panel wmd-preview prettyprint"></div></div>												<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post" class="has-text btn black">
+							<input type="hidden" name="comment_post_ID" value="174448434" id="comment_post_ID" class="has-text">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0" class="has-text">
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="3cffc4fc76" class="has-text"></p>					</form>
+							</div><!-- #respond -->
+			        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('#commentform').submit(function () {
+                    _gaq.push(
+                            ['_setAccount', 'UA-2725447-9'],
+                            ['_trackEvent', 'comment', 'submit']
+                    );
+                });
+            });
+        </script>
+					<div id="comments"><h3>Comments</h3><ol class="comment-list">
+	<li class="comment even thread-even depth-1" id="comment-67">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">ricardobeat</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-67">November 30, -0001 at 12:00 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-63545040000s dictionary-of-numbers-processed">2015 years</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Looking forward for the Rendr release, this looks great!I’m a little sad that you ‘stole’ my library’s name:  <a href="https://github.com/ricardobeat/node-polyglot" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://github.com&#39;]);" rel="nofollow">https://github.com/ricardobeat/node-polyglot</a> (in need of some love)</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=67#respond" onclick="return addComment.moveForm(&quot;comment-67&quot;, &quot;67&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		<ul class="children">
+
+	<li class="comment odd alt depth-2" id="comment-104">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Natarajan Shanker</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-104">May 1, 2013 at 8:47 pm</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-15778800s dictionary-of-numbers-processed">6 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Haha another name that gets “stolen” a lot is Spine. It is a natural pick, to extend Backbone..</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=104#respond" onclick="return addComment.moveForm(&quot;comment-104&quot;, &quot;104&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li class="comment even thread-odd thread-alt depth-1" id="comment-68">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Spike Brehm</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-68">November 30, -0001 at 12:00 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-63545040000s dictionary-of-numbers-processed">2015 years</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>@ricardobeat, sorry about that!  Didn’t mean to be a copycat.  It’s just such a great name!  It seems like lots of people think so: <a href="https://github.com/search?q=polyglot" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://github.com&#39;]);" rel="nofollow">https://github.com/search?q=polyglot</a></p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=68#respond" onclick="return addComment.moveForm(&quot;comment-68&quot;, &quot;68&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment odd alt thread-even depth-1" id="comment-69">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Jacob Gable</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-69">November 30, -0001 at 12:00 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-63545040000s dictionary-of-numbers-processed">2015 years</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Really interesting approach.  I’ve also been fascinated by ChaplinJS for the last <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-15778800s dictionary-of-numbers-processed">6 months</dfn> or so, join us in #chaplinJS on freenode some time.I’ve had some problems with the asset pipeline in node js and connect-asssets in particular, especially getting my require js configs mapped correctly when deployed to a CDN.  You guys might take a look at a module I put together called connect-assets-jspaths if you run into a similar problem: <a href="http://jgable.github.com/connect-assets-jspaths/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-comment&#39;,&#39;http://jgable.github.com&#39;]);" rel="nofollow">http://jgable.github.com/connect-assets-jspaths/</a>.</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=69#respond" onclick="return addComment.moveForm(&quot;comment-69&quot;, &quot;69&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment even thread-odd thread-alt depth-1" id="comment-70">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">nickdima</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-70">November 30, -0001 at 12:00 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-63545040000s dictionary-of-numbers-processed">2015 years</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Can’t wait to take a look at Rendr! When do you guys think you’ll open source it? Weeks, months? <img src="./Airbnb on making rendr_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=70#respond" onclick="return addComment.moveForm(&quot;comment-70&quot;, &quot;70&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment odd alt thread-even depth-1" id="comment-120">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Caio Ribeiro Pereira</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-120">May 3, 2013 at 12:25 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-15778800s dictionary-of-numbers-processed">6 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Thanks for this post! It will be very helpful for my new Node/MongoDB/Backb<dfn class="dictionary-of-numbers">one project</dfn>. <img src="./Airbnb on making rendr_files/icon_biggrin.gif" alt=":D" class="wp-smiley"> </p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=120#respond" onclick="return addComment.moveForm(&quot;comment-120&quot;, &quot;120&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment even thread-odd thread-alt depth-1" id="comment-1114">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Randy Brown</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-1114">June 9, 2013 at 11:00 pm</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-13149000s dictionary-of-numbers-processed">5 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Very interesting approach…will definitely be looking at this further, so thanks for sharing!</p>
+<p>Also, just noticed that your mobile app suffers from the dreaded “iOS<dfn class="dictionary-of-numbers"> 6 bug</dfn>”, where rotating the iPh<dfn class="dictionary-of-numbers">one to landscape then </dfn>back to portrait on the home page causes the viewport to get out of whack…I think this happens on some other pages as well, like the sign-in pages.  In any event, I have seen this a lot when the placeholder attribute is used on a form element and the containing element is a block element.  There are probably better ways to fix this, but if you add “overflow: hidden” to the “search_container” class, that should fix it (the home page anyway).</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=1114#respond" onclick="return addComment.moveForm(&quot;comment-1114&quot;, &quot;1114&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment odd alt thread-even depth-1" id="comment-1128">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Fryck</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-1128">June 10, 2013 at 8:36 pm</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-13149000s dictionary-of-numbers-processed">5 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Why you use Stitch instead of for example RequireJS ?</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=1128#respond" onclick="return addComment.moveForm(&quot;comment-1128&quot;, &quot;1128&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment even thread-odd thread-alt depth-1" id="comment-1587">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">nniico</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-1587">July 4, 2013 at 8:31 pm</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-10519200s dictionary-of-numbers-processed">4 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Did you remove all the code samples on this page on purpose?</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=1587#respond" onclick="return addComment.moveForm(&quot;comment-1587&quot;, &quot;1587&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment odd alt thread-even depth-1" id="comment-2495">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Rene Meza</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-2495">July 15, 2013 at 2:12 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-10519200s dictionary-of-numbers-processed">4 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>I really liked this post. I would like to see an article where a web application is developed using these concepts, for example. Develop a web application with backbone.js both the client and server by taking into account both performance and progressive enhancement, through the templates on the client side and server side to JSON APIs</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=2495#respond" onclick="return addComment.moveForm(&quot;comment-2495&quot;, &quot;2495&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+
+	<li class="comment even thread-odd thread-alt depth-1 last" id="comment-4737">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">daslicht</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-4737">July 31, 2013 at 5:10 am</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-7889400s dictionary-of-numbers-processed">3 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Lovely <img src="./Airbnb on making rendr_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=4737#respond" onclick="return addComment.moveForm(&quot;comment-4737&quot;, &quot;4737&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+</ol></div><div id="pings"><h3>Trackbacks</h3><ol class="ping-list">		<li class="pingback even thread-even depth-1" id="comment-2417">
+				<div id="div-comment-2417" class="comment-body">
+				<div class="comment-author vcard">
+						<cite class="fn"><a href="http://hypeberries.com/progressive-enhancement-is-still-important/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://hypeberries.com&#39;]);" rel="external nofollow" class="url">Progressive enhancement is still important</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-2417">
+			July<dfn class="dictionary-of-numbers"> 13, 2013 at </dfn>8:<dfn class="dictionary-of-numbers">43 pm</dfn></a>		</div>
+
+		<p>[...] of progressive enhancement had a “told you so” moment when&nbsp;Airbnb’s improved performance&nbsp;by delivering requested content as HTML (and sold it as a new [...]</p>
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=2417#respond" onclick="return addComment.moveForm(&quot;div-comment-2417&quot;, &quot;2417&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+				</div>
+		</li><!-- #comment-## -->
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-2680">
+				<div id="div-comment-2680" class="comment-body">
+				<div class="comment-author vcard">
+						<cite class="fn"><a href="http://www.yuiblog.com/blog/2013/07/16/velocity-2013-building-a-faster-and-stronger-web/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-commentauthor&#39;,&#39;http://www.yuiblog.com&#39;]);" rel="external nofollow" class="url">Velocity 2013 – Building a Faster and Stronger Web - YUI Blog</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/#comment-2680">
+			July<dfn class="dictionary-of-numbers"> 16, 2013 at </dfn>2:<dfn class="dictionary-of-numbers">10 pm</dfn></a>		</div>
+
+		<p>[...] and client-side rendering as JavaScript-gone-too-far. This is something Twitter and airbnb have realized, which should serve as a reminder to take a step back and rethink things before you [...]</p>
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/?replytocom=2680#respond" onclick="return addComment.moveForm(&quot;div-comment-2680&quot;, &quot;2680&quot;, &quot;respond&quot;, &quot;174448434&quot;)">Reply</a>		</div>
+				</div>
+		</li><!-- #comment-## -->
+</ol></div>			
+				</div>
+				<!-- /post -->
+			</div>
+					</div>
+		<!-- /row -->
+	
+	</div>
+	</div></div></div><!-- end #inner --><div id="footer">
+    <div class="container">
+		<div class="row space2">
+			<div class="span12" id="searchform-block"><form method="get" class="searchform search-form" action="http://nerds.airbnb.com/" role="search"><input type="text" value="Search this website…" name="s" class="s search-input has-text" onfocus="if (&#39;Search this website…&#39; === this.value) {this.value = &#39;&#39;;}" onblur="if (&#39;&#39; === this.value) {this.value = &#39;Search this website…&#39;;}"><input type="submit" class="searchsubmit search-submit has-text" value="Search"></form></div>
+		</div>
+		<div class="row space1" id="sidebar-bottom">
+			<div id="black-studio-tinymce-2" class="widget widget_black_studio_tinymce span3"><h4 class="widgettitle">More Airbnb blogs</h4><div class="widget-cnt">			<div class="textwidget"><ul>
+<li><a href="http://blog.airbnb.com/">Airbnb blog</a></li>
+<li><a href="http://publicpolicy.airbnb.com/">Public Policy</a></li>
+</ul></div>
+		</div></div><div id="black-studio-tinymce-3" class="widget widget_black_studio_tinymce span3"><h4 class="widgettitle">Find Us at</h4><div class="widget-cnt">			<div class="textwidget"><ul>
+<li><a href="https://twitter.com/AirbnbNerds" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://twitter.com&#39;]);" target="_blank">Twitter Nerds</a></li>
+<li><a href="https://www.facebook.com/airbnb" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://www.facebook.com&#39;]);" target="_blank">Facebook</a></li>
+<li><a href="https://plus.google.com/u/0/+airbnb/posts" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://plus.google.com&#39;]);" target="_blank">Google+</a></li>
+<li><a href="https://twitter.com/Airbnb" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://twitter.com&#39;]);" target="_blank">Twitter</a></li>
+<li><a href="http://www.youtube.com/airbnb" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://www.youtube.com&#39;]);" target="_blank">YouTube</a></li>
+</ul>
+<p>© Airbnb, Inc</p></div>
+		</div></div><div id="black-studio-tinymce-4" class="widget widget_black_studio_tinymce span3"><h4 class="widgettitle">About Airbnb</h4><div class="widget-cnt">			<div class="textwidget"><p>Airbnb is a global community marketplace that connects travelers seeking authentic, high-quality accommodations with hosts who offer unique places to stay.</p></div>
+		</div></div> 
+		</div>
+    </div>
+</div>
+</div><!-- end #wrap -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./Airbnb on making rendr_files/ga(1).js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4054156-1");
+pageTracker._setDomainName("none");
+pageTracker._setAllowLinker(true);
+pageTracker._setAllowHash(false);
+pageTracker._initData();
+pageTracker._trackPageview();
+</script><script type="text/javascript" src="./Airbnb on making rendr_files/markdown.min.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/Markdown.Converter.min.js"></script>
+<script type="text/javascript" src="./Airbnb on making rendr_files/Markdown.Sanitizer.min.js"></script>
+<img width="62" height="25" src="./Airbnb on making rendr_files/default.gif" class="typekit-badge" alt="Fonts by Typekit" title="Information about the fonts used on this site" style="position: fixed; z-index: 2000000000; right: 0px; bottom: 0px; cursor: pointer; border: 0px; content: none; display: inline; float: none; height: 25px; left: auto; margin: 0px; max-height: 25px; max-width: 62px; min-height: 25px; min-width: 62px; orphans: 2; outline: none; overflow: visible; padding: 0px; page-break-after: auto; page-break-before: auto; page-break-inside: auto; table-layout: auto; text-indent: 0px; top: auto; unicode-bidi: normal; vertical-align: baseline; visibility: visible; widows: 2; width: 65px;"><script type="text/javascript" src="./Airbnb on making rendr_files/Markdown.Editor.min.js"></script>
+
+
+<iframe id="shr_oven" src="./Airbnb on making rendr_files/saved_resource.html" style="display: none;"></iframe></body></html>

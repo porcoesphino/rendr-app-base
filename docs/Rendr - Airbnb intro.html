@@ -1,0 +1,537 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0070)http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US" prefix="og: http://ogp.me/ns#" class="mac chrome chrome3 webkit webkit5 wf-ffmetaserifwebpro-n5-inactive wf-ffmetaserifwebpro-n7-inactive wf-magionweb-n4-inactive wf-brevia-i3-inactive wf-ffmetaserifwebpro-i5-inactive wf-ffmetaserifwebpro-i7-inactive wf-inactive"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base href="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/">--><base href=".">
+
+<title>Rendr: Run your Backbone apps in the browser and Node - Airbnb Engineering</title>
+
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.4.18 - http://yoast.com/wordpress/seo/ -->
+<link rel="canonical" href="./Rendr - Airbnb intro_files/Rendr - Airbnb intro.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rendr: Run your Backbone apps in the browser and Node - Airbnb Engineering">
+<meta property="og:description" content="You may remember our blog post back in January that first introduced Rendr, our library for running Backbone.js apps seamlessly on both the client and the server. We originally built Rendr to power our mobile web app, and in the post we explained ...">
+<meta property="og:url" content="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/">
+<meta property="og:site_name" content="Airbnb Engineering">
+<meta property="og:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/04/rendr.jpg">
+<meta property="og:image" content="http://f.cl.ly/items/0d100t0R3E3M2q0b2i2g/allthethings.jpg">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Airbnb Engineering » Feed" href="http://nerds.airbnb.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Airbnb Engineering » Comments Feed" href="http://nerds.airbnb.com/comments/feed/">
+
+            <script id="shr-google-analytics" type="text/javascript" async="" src="./Rendr - Airbnb intro_files/ga.js"></script><script id="shr-analytics" type="text/javascript" async="" src="./Rendr - Airbnb intro_files/shareaholic-analytics.js"></script><script data-cfasync="false" src="./Rendr - Airbnb intro_files/shareaholic.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="./Rendr - Airbnb intro_files/ga(1).js"></script><script type="text/javascript">//<![CDATA[
+            // Google Analytics for WordPress by Yoast v4.3.3 | http://yoast.com/wordpress/google-analytics/
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-2725447-9']);
+				            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+			<link rel="alternate" type="application/rss+xml" title="Airbnb Engineering » Rendr: Run your Backbone apps in the browser and Node Comments Feed" href="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/feed/">
+<link rel="stylesheet" id="child-theme-css" href="./Rendr - Airbnb intro_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="o2-styles1-css" href="./Rendr - Airbnb intro_files/docs.css" type="text/css" media="all">
+<link rel="stylesheet" id="o2-styles2-css" href="./Rendr - Airbnb intro_files/o2.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-font-css" href="./Rendr - Airbnb intro_files/font.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-menu-css" href="./Rendr - Airbnb intro_files/snap.css" type="text/css" media="all">
+<link rel="stylesheet" id="styles-main-css" href="./Rendr - Airbnb intro_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-markdown-editor-css" href="./Rendr - Airbnb intro_files/markdown-editor.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-markdown-prettify-css" href="./Rendr - Airbnb intro_files/prettify.css" type="text/css" media="all">
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/comment-reply.min.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/jquery.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/stdair-build.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/o2.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/jquery.browser.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/jquery.carouFredSel-packed.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/snap.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/jquery.touchSwipe.min.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/engine.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/prettify.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://nerds.airbnb.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://nerds.airbnb.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.6.1">
+<link rel="shortlink" href="http://nerds.airbnb.com/?p=176553648">
+<script type="text/javascript" data-cfasync="false">
+  //<![CDATA[
+    (function() {
+      var shr = document.createElement('script');
+      shr.setAttribute('data-cfasync', 'false');
+      shr.src = 'https://dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js';
+      shr.type = 'text/javascript'; shr.async = 'true';
+      shr.onload = shr.onreadystatechange = function() {
+        var rs = this.readyState;
+        if (rs && rs != 'complete' && rs != 'loaded') return;
+        var apikey = '512a604ca50739f1534581cf384cfd7b';
+        try { Shareaholic.init(apikey); } catch (e) {}
+      };
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(shr, s);
+    })();
+  //]]>
+</script>
+
+<!-- Shareaholic Content Tags -->
+<meta name="shareaholic:site_name" content="Airbnb Engineering">
+<meta name="shareaholic:language" content="en-US">
+<meta name="shareaholic:url" content="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/">
+<meta name="shareaholic:keywords" content="open source">
+<meta name="shareaholic:article_published_time" content="2013-04-10T21:58:00+00:00">
+<meta name="shareaholic:article_modified_time" content="2013-10-23T21:29:35+00:00">
+<meta name="shareaholic:article_author_name" content="Spike Brehm">
+<meta name="shareaholic:wp_version" content="7.0.4.3">
+<meta name="shareaholic:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/04/rendr.jpg">
+<!-- Shareaholic Content Tags End -->
+
+<!-- Shareaholic Open Graph Tags -->
+<meta property="og:image" content="http://nerds.airbnb.com/wp-content/uploads/2013/04/rendr.jpg">
+<!-- Shareaholic Open Graph Tags End -->
+<link rel="Shortcut Icon" href="http://nerds.airbnb.com/wp-content/themes/platinum/images/favicon.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width">
+
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/tab1ron.js"></script>
+<style type="text/css">.tk-magion-web{font-family:"magion-web",sans-serif;}.tk-brevia{font-family:"brevia",sans-serif;}.tk-ff-meta-serif-web-pro{font-family:"ff-meta-serif-web-pro",serif;}</style><link rel="stylesheet" href="http://use.typekit.net/c/4f7e4c/brevia:i3,ff-meta-serif-web-pro:i5:i7:n5:n7,magion-web:n4.Nz7:K:2,VbP:K:2,VbR:K:2,VbN:K:2,VbQ:K:2,NTX:K:2/d?3bb2a6e53c9684ffdc9a9afe1d5b2a6262b4be0bfc491ced4e51bafb2a4271d783a7a30e7c393c3ff831a5b188a1aed63ac696bd16e026c452d0898a007e0896d05112916c010ae837af7e87d79f6ced3eee926edad8cc"><script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<style>
+
+pre.prettyprint { padding: 6px;  word-wrap: break-word;}
+#content blockquote p {font-size: 22px;
+font-weight: bold;}
+
+#content .author-box p { font-size: 13px;
+line-height: 1.3em;
+width: 210px;}
+
+code {
+/* override O2 */
+background-color: transparent;
+border: none;
+padding: 0;
+}
+
+/* inputs */
+input {
+display: inline-block;
+width: 210px;
+height: 18px;
+padding: 4px;
+margin-top: 9px;
+margin-bottom: 9px;
+font-size: 13px;
+line-height: 18px;
+color: #5a5a5a;
+border: 1px solid #ccc;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000;
+box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000;
+-webkit-transition: border linear 0.2s,box-shadow linear 0.2s;
+-moz-transition: border linear 0.2s,box-shadow linear 0.2s;
+-ms-transition: border linear 0.2s,box-shadow linear 0.2s;
+-o-transition: border linear 0.2s,box-shadow linear 0.2s;
+transition: border linear 0.2s,box-shadow linear 0.2s;
+}
+
+#footer input[type="submit"] {
+font-weight: bold;
+display: inline-block;
+padding: 0.4em 1.2em;
+margin-top: 0;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+text-align: center;
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+text-transform: uppercase;
+vertical-align: middle;
+margin-bottom: 0;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+-webkit-box-shadow: inset 0 0 0.2em rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.2),0 0 0 #000;
+box-shadow: inset 0 0 0.2em rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.2),0 0 0 #000;
+background-color: #018fe1;
+background-image: -webkit-linear-gradient(top, #00aeff 0%,#018fe1 100%);
+background-image: -moz-linear-gradient(top, #00aeff 0%,#018fe1 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00aeff', endColorstr='#ff018fe1', GradientType=0);
+border: 1px solid rgba(0,0,0,0.2);
+border-color: #0195eb #0083c7 #0175b8 #0083c7;
+font-size: 12px;
+line-height: 16px;
+color: #fff;
+text-shadow: 0 -1px 0px rgba(0,0,0,0.2);
+}
+
+/* featured image carousel */
+
+
+/* tech-talks */
+.posts-list .category-tech-talks.entry  a[rel~="bookmark"] { background: black; overflow: hidden; height: 321px; }
+.posts-list .category-tech-talks img {position: relative; top: -20px;}
+
+.typekit-badge { display: none !important; }
+blockquote p { padding-left: 25px; font-style: italic; }
+
+</style><script type="text/javascript" src="./Rendr - Airbnb intro_files/shareaholic_tools.js" data-cfasync="false" async=""></script><style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style><script>window["_GOOG_TRANS_EXT_VER"] = "1";</script><link rel="stylesheet" type="text/css" href="./Rendr - Airbnb intro_files/share_buttons.css" id="share_buttons_css"></head>
+<body class="single single-post postid-176553648 single-format-standard full-width-content" style="zoom: 1;">
+
+
+<div class="snap-drawers" style="display: none;">
+	<div class="snap-drawer snap-drawer-left" id="menu-left">
+		<div id="nav_menu-3" class="widget widget_nav_menu"><div class="menu-left-nav-container"><ul id="menu-left-nav" class="menu nav"><li id="menu-item-176593911" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-176593911"><a href="http://nerds.airbnb.com/">Airbnb Nerds</a></li>
+<li id="menu-item-176593906" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593906 odd"><a href="http://nerds.airbnb.com/code/">Code</a></li>
+<li id="menu-item-176593910" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593910"><a href="http://nerds.airbnb.com/data/">Data</a></li>
+<li id="menu-item-176593909" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593909 odd"><a href="http://nerds.airbnb.com/news/">News</a></li>
+<li id="menu-item-176593907" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593907"><a href="http://nerds.airbnb.com/tech-talks/">Tech Talks</a></li>
+<li id="menu-item-176593908" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-176593908 odd"><a href="http://nerds.airbnb.com/open-source/">Open Source</a></li>
+</ul></div></div></div>	</div>
+
+
+
+<!-- posts -->
+<img width="62" height="25" src="./Rendr - Airbnb intro_files/default.gif" class="typekit-badge" alt="Fonts by Typekit" title="Information about the fonts used on this site" style="position: fixed; z-index: 2000000000; right: 0px; bottom: 0px; cursor: pointer; border: 0px; content: none; display: inline; float: none; height: 25px; left: auto; margin: 0px; max-height: 25px; max-width: 62px; min-height: 25px; min-width: 62px; orphans: 2; outline: none; overflow: visible; padding: 0px; page-break-after: auto; page-break-before: auto; page-break-inside: auto; table-layout: auto; text-indent: 0px; top: auto; unicode-bidi: normal; vertical-align: baseline; visibility: visible; widows: 2; width: 65px;"><div id="basis" class="snap-content" data-snap-ignore="true">
+
+<div id="header"><div class="container"><div id="title-area" class="span3"><a id="open-left" href="javascript:void(null)">Toogle menu</a><p id="title"><a href="http://nerds.airbnb.com/" title="Airbnb Engineering" class="icon icon-airbnb">Airbnb Engineering</a><span id="description">Nerds</span></p></div><!-- end #title-area --><div class="widget-area span9"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-top-nav-container"><ul id="menu-top-nav" class="menu genesis-nav-menu nav"><li id="menu-item-176593901" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593901"><a href="http://nerds.airbnb.com/code/">Code</a></li>
+<li id="menu-item-176593902" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593902"><a href="http://nerds.airbnb.com/tech-talks/">Tech Talks</a></li>
+<li id="menu-item-176593903" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-176593903"><a href="http://nerds.airbnb.com/open-source/">Open Source</a></li>
+<li id="menu-item-176593904" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593904"><a href="http://nerds.airbnb.com/news/">News</a></li>
+<li id="menu-item-176593905" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593905"><a href="http://nerds.airbnb.com/data/">Data</a></li>
+</ul></div></div></div>
+</div><!-- end .widget-area --><div id="topswipe"><div class="swipe-wrap"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-top-nav-container"><ul id="menu-top-nav-1" class="menu nav" style="width: 5px;"><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593901 swipeli-0"><a href="http://nerds.airbnb.com/code/">Code</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593902 swipeli-1"><a href="http://nerds.airbnb.com/tech-talks/">Tech Talks</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-176593903 swipeli-2"><a href="http://nerds.airbnb.com/open-source/">Open Source</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593904 swipeli-3"><a href="http://nerds.airbnb.com/news/">News</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176593905 swipeli-4"><a href="http://nerds.airbnb.com/data/">Data</a></li>
+</ul></div></div></div>
+<div class="clear"></div></div><div class="gr-left"></div><div class="gr-right"></div></div></div></div><!--end #header-->
+
+<!-- promo -->
+		<div id="promo-single">
+			<div class="wrapper">
+				<div class="caroufredsel_wrapper" style="display: block; text-align: start; float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: auto; width: 1366px; height: 530px; margin: 0px; overflow: hidden;"><ul id="mycarousel-single" style="text-align: left; float: none; position: absolute; top: 0px; right: auto; bottom: auto; left: 0px; margin: 0px; width: 4098px; height: 510px;">
+					<li style="width: 1366px;">
+						<img src="./Rendr - Airbnb intro_files/1375396981rendr.jpg" alt="">
+						<span class="shadow"></span>
+						<span class="slider-text">
+							<span class="post-cat">Open Source</span>
+							<span class="post-titles">
+								<span class="post-title"><a href="./Rendr - Airbnb intro_files/Rendr - Airbnb intro.html">Rendr: Run your Backb<dfn class="dictionary-of-numbers">one apps in the </dfn>browser and Node</a></span>
+								<span class="post-subtitle">by Spike Brehm</span>							</span>
+						</span>
+					</li>
+				</ul></div>
+			</div>
+		</div>
+		
+<!-- /promo -->
+
+
+<div id="contents">
+<div id="content-sidebar-wrap"><div id="content" class="hfeed">	<div class="container post-with-hires-image">
+		<div class="row space1" id="post-title">
+			<div class="span12">
+								<h1 class="entry-title">Rendr: Run your Backbone apps in the browser and Node</h1> 
+							</div>
+		</div>
+	
+				
+		<!-- row -->
+		<div class="row space2" id="post-cnt">
+			<div class="span3" id="block-with-author">
+				<div id="single__author-avatar"><div class="author-box"><div><img alt="" src="./Rendr - Airbnb intro_files/506c3ef38d591b77dd7f44e17b68ce23" class="avatar avatar-65 photo" height="65" width="65"> <strong>About Spike Brehm</strong><br></div></div></div>
+				<div id="single__post-info">
+					<div class="post-info-label">Published in:</div>
+					<div class="post-meta"><span class="post-cats"><span class="categories"><a href="http://nerds.airbnb.com/open-source/" title="View all posts in Open Source" rel="category tag">Open Source</a></span>  </span></div><div class="post-info"><br>by <span class="author vcard"><span class="fn"><a href="http://nerds.airbnb.com/author/spike-brehm/" title="Spike Brehm" rel="author">Spike Brehm</a></span></span> <span class="date published time" title="2013-04-10T21:58:00+00:00">April 10, 2013</span>  </div>				</div>
+			</div>
+		
+			<div class="span9" id="single__post">
+				<!-- post -->
+				<div class="post-176553648 post type-post status-publish format-standard hentry category-open-source entry">
+						<div id="post-content">
+							<div class="post-info"><br>by <span class="author vcard"><span class="fn"><a href="http://nerds.airbnb.com/author/spike-brehm/" title="Spike Brehm" rel="author">Spike Brehm</a></span></span> <span class="date published time" title="2013-04-10T21:58:00+00:00">April 10, 2013</span>  </div>							<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">You may remember our </span><a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">blog post</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> back in January that first introduced Rendr, our library for running Backbone.js apps seamlessly on both the client and the server. &nbsp;We originally built Rendr to power our </span><a href="https://m.airbnb.com/" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">mobile web app</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">, and in the post we explained our approach and showed some sample code.</span></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"><br></span></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">We’ve been blown away by the response from the community. &nbsp;With<dfn class="dictionary-of-numbers"> 80,000 hits to the </dfn>original blog post and a constant stream of questions and comments on Twitter, it quickly became clear that we’d stumbled upon a Zeitgeist. &nbsp;Many developers shared the same pain points with the traditional client-side MVC approach: poor pageload performance, lack of SEO, duplication of application logic, and context switching between languages. &nbsp;</span></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"><br></span></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">The number <dfn class="dictionary-of-numbers">one question we received </dfn>went something like this: “When will u release Rendr???”</span></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"><br></span></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Well, we’ve up and d<dfn class="dictionary-of-numbers">one it </dfn>— Rendr is now an open source project, and you can check out the code over at </span><a href="https://github.com/airbnb/rendr" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">github.com/airbnb/rendr</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">. &nbsp;A good place to start is the sample app: </span><a href="https://github.com/airbnb/rendr-app-template" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">github.com/airbnb/rendr-app-template</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">. &nbsp;It provides some minimal boilerplate for a Rendr app, fashioned as “GitHub Browser”, a little app that consumes the public GitHub API. &nbsp;Rendr is meant to work with any RESTful API, so please give it a try with your API of choice. &nbsp;If you come up with something you’d like to show off, send it to us at </span><a href="https://twitter.com/rendrjs" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">@rendrjs</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> and we’ll host a little gallery of Rendr apps.</span></strong></strong></strong>
+</p>
+<p><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"> </strong></strong></strong></p>
+<h1 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><span style="font-size: 21px; font-family: Trebuchet MS; background-color: transparent; font-weight: normal; vertical-align: baseline;">Server-side Backbone at HTML5DevConf</span></strong></strong></strong><br>
+</h1>
+<p><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"></strong></strong></strong></p><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;">
+<p></p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Last week at </span><a href="http://html5devconf.com/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://html5devconf.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">HTML<dfn class="dictionary-of-numbers">5DevConf</dfn></span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> I got a chance to speak on Rendr. &nbsp;[Check out the slides]() for some more context on Rendr. &nbsp;The talk was also recorded, but the video isn’t ready quite yet. &nbsp;If you want to see it sooner rather than later, let the conference organizers know by asking nicely to </span><a href="https://twitter.com/html5devconf" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">@html<dfn class="dictionary-of-numbers">5devconf</dfn></span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">. &nbsp;I’ll update this post when the video’s live.</span>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">The conference was great; there were phenomenal speakers, and there was a lot of useful tips on how to build modern, maintainable JavaScript apps.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Indeed, there were no less than <dfn class="dictionary-of-numbers">two other talks on </dfn>server-side Backbone. &nbsp;</span><a href="https://twitter.com/tbranyen" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">Tim Branyen</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> showed </span><a href="https://github.com/tbranyen/previewcode" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">previewcode</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> and </span><a href="https://twitter.com/laurisvan" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">Lauri Svan</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> showed </span><a href="https://github.com/SC5/backbone-serverside" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">backbone-serverside</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">, both prototypes that demonstrate sharing Backb<dfn class="dictionary-of-numbers">one code between the </dfn>client and the server. &nbsp;We got to meet up over lunch and compare approaches, and it was really interesting to see how similar our code was, with a few important differences.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">For example, both Tim and Lauri chose AMD via RequireJS for modules, while I chose CommonJS via Stitch. Also, we all used Express as a web server, but they patched Backbone.Router or Backbone.History to route and handle server-side requests, whereas I created separate ClientRouter and ServerRouter classes that delegate to Express or Backbone.Router, and a separate routes file. Tim and Lauri chose to stub out jQuery on the server using Cheerio; I opted to avoid DOM abstractions on the server in favor of strict string-based templating.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">What’s important, though, is that we all arrived at this approach after struggling with the drawbacks of a traditional client-side Backb<dfn class="dictionary-of-numbers">one app</dfn>. &nbsp;And I’m sure we’re not the only ones: there must be a number of developers who’ve hacked on similar approaches, just like </span><a href="http://bones/" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">Bones</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">. &nbsp;There’s an opportunity here to combine our efforts and work towards a library that we can all use and extend to fit our needs. &nbsp;</span>
+</p>
+<p>
+  
+</p>
+<h1 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 21px; font-family: Trebuchet MS; background-color: transparent; font-weight: normal; vertical-align: baseline;">Design Goals</span><br>
+</h1>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Here is the simple set of design goals which are guiding Rendr’s development.</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">Write application logic agnostic to environment.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Indicating what data to fetch, which template to render, which route to match, how to transform a model’s data — this logic can and should be abstracted from specific implementation details as much as possible.</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">Library, not a framework.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">In true Backb<dfn class="dictionary-of-numbers">one style</dfn>, Rendr strives to be a library as opposed to a framework. &nbsp;A small collection of base classes which can be built upon is easier to adopt and maintain than a batteries-included web framework. &nbsp;Solve the problem at hand without imposing unneeded structure on the application.</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">Minimize code like </span><span style="font-size: 17px; font-family: Courier New; background-color: transparent; vertical-align: baseline;">if (server) {…} else {…}</span><span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">If your application has a bunch of conditions that look like this, then it means you’re doing something wrong. &nbsp;It’s a sign of a leaky abstraction. &nbsp;Of course, sometimes it’s necessary to know which environment you’re in, but that logic should be consolidated and abstracted away as much as possible. &nbsp;Which leads us to…</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">Hide complexity in the library.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">There are a few really tricky problems that need to be tackled to achieve these other goals. &nbsp;The complexity of the solutions should be hidden in the library, keeping the application code clean, but remain accessible when it’s time to override core behaviors.</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">Talk to a RESTful API.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Backb<dfn class="dictionary-of-numbers">one is great at </dfn>integrating with a RESTful API. &nbsp;Let’s follow that convention, keeping the data source separate from Rendr itself. &nbsp;It should be possible to write adapters for different data sources, such as Mongo, CouchDB, Postgres, or Riak, but the library shouldn’t impose structure on your model layer.</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">No server-side DOM.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">We prefer string-based templating over using a DOM on the server because DOM implementations are slow, and, well, because it feels hacky. &nbsp;You shouldn’t need a DOM to render HTML. &nbsp;However, I’m curious how this will change though once </span><a href="http://www.w3.org/TR/components-intro/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.w3.org&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">WebComponents</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> become commonplace.</span>
+</p>
+<h2 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 17px; font-family: Trebuchet MS; background-color: transparent; vertical-align: baseline;">Simple Express middleware.</span><br>
+</h2>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Express is the de facto Node.js web server. &nbsp;Rendr should fit with Express convention, exposing a few simple middleware. &nbsp;A nice effect of this is that you can tack on Rendr routes onto any existing Express app, or have Rendr and non-Rendr content served from the same codebase as necessary.</span>
+</p>
+<h1 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 21px; font-family: Trebuchet MS; background-color: transparent; font-weight: normal; vertical-align: baseline;">The Evolution of Rendr</span><br>
+</h1>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">I’d love to see Rendr evolve to become even more modular, pulling out components like the routing, templating, and view classes into separate modules, leaving the minimal set of glue required to sanely build a Backb<dfn class="dictionary-of-numbers">one app that runs </dfn>on the client and server. &nbsp;With a bit of work, it may even be possible to decouple Rendr from Backb<dfn class="dictionary-of-numbers">one itself</dfn>, allowing it to work with other client-side MVC libraries.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">While you can easily use the code we’ve released to build a production-quality app (if you don’t mind getting your hands a bit dirty), our intention for Rendr isn’t for it to be the next [Rails, Meteor, Ember, Backbone]. &nbsp;&nbsp;Instead, we want to explore the problem of isomorphic JavaScript applications and stimulate discussion in the community.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">To that end, we’ve been talking with </span><a href="https://twitter.com/mde" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">@mde</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">, who maintains the </span><a href="https://github.com/mde/geddy" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">Geddy</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> project, the first and most complete web framework for Node.js. &nbsp;Geddy is more of a Rails-style server-side MVC framework, but Matt shares our vision for JavaScript apps that can run on both sides. &nbsp;We’re looking at what it would take to allow Geddy to take advantage of Rendr’s approach. &nbsp;What primitives and abstractions do we need to build applications that can seamlessly render views, route requests, and fetch data in both environments?</span>
+</p>
+<p>
+  
+</p>
+<h1 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 21px; font-family: Trebuchet MS; background-color: transparent; font-weight: normal; vertical-align: baseline;">Rendr, Decaffeinated</span><br>
+</h1>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Coming from Rails, we Airbnb engineers were initially smit<dfn class="dictionary-of-numbers">ten with CoffeeScript</dfn>. &nbsp;We’ve found it increases our productivity and lets us avoid some of the more verbose parts of JavaScript. &nbsp;Thus, Rendr has been writ<dfn class="dictionary-of-numbers">ten mostly in CoffeeScript</dfn>. &nbsp;But heeding the advice of the broader Node.js community, we’re in the process of converting it over to plain-jane JavaScript. &nbsp;This will make it easier for more people to adopt and contribute, avoiding fragmentation. &nbsp;Interesting side note: when we show off Rendr to people from the Node.js community, they choke on the CoffeeScript without fail, but the Backb<dfn class="dictionary-of-numbers">one community and front-</dfn>end developers in general seem to prefer CoffeeScript.</span>
+</p>
+<h1 style="line-height: 1.15; margin-top: 10pt; margin-bottom: 0pt;">
+  <span style="font-size: 21px; font-family: Trebuchet MS; background-color: transparent; font-weight: normal; vertical-align: baseline;">Open Source at Airbnb</span><br>
+</h1>
+<p>
+  <img src="./Rendr - Airbnb intro_files/allthethings.jpg" height="240" alt="" width="320">
+</p>
+<p>
+  <strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;">
+</strong></strong></strong></p><p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;"><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;">
+    <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">Rendr comes hot on the heels of the </span><a href="http://nerds.airbnb.com/introducing-chronos" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">announcement of Chronos</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">, the open source replacement for cron built by our data-infrastructure team. &nbsp;</span>
+  </strong></strong></strong></p><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;">
+</strong></strong></strong><p><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;"></strong></strong></strong>
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">We’ve also released a few JavaScript projects that are borne out of our efforts building web apps here at Airbnb.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <a href="https://github.com/airbnb/infinity" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://github.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">Infinity.js</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> is a small library for managing infinite scroll. &nbsp;It’s like UITableView for the web.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <a href="https://github.com/airbnb/polyglot.js" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;download&#39;,&#39;http://github.com/airbnb/polyglot.js&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">Polyglot.js</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> is a browser- and Node.js-compatible library for handling internationalization. &nbsp;The secret-sauce of Polyglot.js is its handling of pluralization rules for non-English languages. &nbsp;For example, Chinese and Korean have just a single form, whereas Russian, Czech, and Polish have <dfn class="dictionary-of-numbers">three forms</dfn>.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">We’ve got a few more exciting open source projects coming through the pipeline, so keep an eye out! &nbsp;Follow </span><a href="https://twitter.com/AirbnbNerds" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">@AirbnbNerds</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> and </span><a href="https://twitter.com/rendrjs" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://twitter.com&#39;]);" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">@rendrjs</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> for updates.</span>
+</p>
+<p>
+  
+</p>
+<p style="line-height: 1.15; margin-top: 0pt; margin-bottom: 0pt;">
+  <span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;">And, as always, </span><a href="https://www.airbnb.com/jobs" style="text-decoration: none;"><span style="font-size: 15px; font-family: Arial; color: #1155cc; background-color: transparent; text-decoration: underline; vertical-align: baseline;">we’re hiring talented engineers</span></a><span style="font-size: 15px; font-family: Arial; background-color: transparent; vertical-align: baseline;"> to work all over our stack: frontend, backend, search, trust &amp; safety, machine learning, data-infrastructure, analytics — you name it.</span>
+</p>
+</strong></strong></strong><p><strong style="font-family: Times; font-size: medium; font-weight: normal;"><strong style="line-height: normal; font-weight: normal;">
+  </strong></strong></p>
+<div class="shareaholic-canvas" data-app-id="95038" data-app="share_buttons" data-title="Rendr: Run your Backbone apps in the browser and Node" data-link="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/" data-summary="You may remember our blog post back in January that first introduced Rendr, our library for running Backbone.js apps seamlessly on both the client and the server. We originally built Rendr to power our mobile web app, and in the post we explained ..."><div class="shareaholic-share-buttons-container shareaholic-ui flat mini side-counter" style="height: auto;"><div class="shareaholic-share-buttons-wrapper shareaholic-ui"><ul class="shareaholic-share-buttons" style=""><li data-service="facebook" class="shareaholic-share-button has-shares" data-original-title="Facebook" style="display: list-item;"><span class="share-button-counter">18</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-facebook"></i><span class="share-button-verb">Share</span></a></li><li data-service="twitter" class="shareaholic-share-button has-shares" data-original-title="Twitter" style="display: list-item;"><span class="share-button-counter">34</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-twitter"></i><span class="share-button-verb">Share</span></a></li><li data-service="linkedin" class="shareaholic-share-button has-shares" data-original-title="LinkedIn" style="display: list-item;"><span class="share-button-counter">3</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-linkedin"></i><span class="share-button-verb">Share</span></a></li><li data-service="yc_hacker_news" class="shareaholic-share-button" data-original-title="YC Hacker News" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-yc_hacker_news"></i><span class="share-button-verb">Share</span></a></li><li data-service="google_plus" class="shareaholic-share-button" data-original-title="Google+" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-google_plus"></i><span class="share-button-verb">Share</span></a></li><li data-service="delicious" class="shareaholic-share-button has-shares" data-original-title="Delicious" style="display: list-item;"><span class="share-button-counter">7</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-delicious"></i><span class="share-button-verb">Share</span></a></li><li data-service="tumblr" class="shareaholic-share-button" data-original-title="Tumblr" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-tumblr"></i><span class="share-button-verb">Share</span></a></li><li data-service="all" class="shareaholic-share-button" data-original-title="More Options" style="display: list-item;"><span class="share-button-counter">0</span><a href="javascript:void(0);"><i class="shareaholic-service-icon service-all"></i><span class="share-button-verb">Share</span></a></li></ul></div></div></div>							<div class="post-meta"><span class="categories"><a href="http://nerds.airbnb.com/open-source/" title="View all posts in Open Source" rel="category tag">Open Source</a></span>  </div>						</div>
+						<h3 id="single__respond-title"><dfn class="dictionary-of-numbers">1 comments</dfn></h3>
+						<div class="author-box"><div><img alt="" src="./Rendr - Airbnb intro_files/506c3ef38d591b77dd7f44e17b68ce23" class="avatar avatar-65 photo" height="65" width="65"> <strong>About Spike Brehm</strong><br></div></div>								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Speak Your Mind <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://nerds.airbnb.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+																										<p class="comment-form-author"><input id="author" name="author" type="text" value="" size="30" tabindex="1" aria-required="true"><label for="author">Name</label> <span class="required">*</span></p>
+<p class="comment-form-email"><input id="email" name="email" type="text" value="" size="30" tabindex="2" aria-required="true"><label for="email">Email</label> <span class="required">*</span></p>
+<p class="comment-form-url"><input id="url" name="url" type="text" value="" size="30" tabindex="3"><label for="url">Website</label></p>
+												<div class="wmd-panel"><div id="wmd-button-barcomment"><ul id="wmd-button-rowcomment" class="wmd-button-row"><li class="wmd-button" id="wmd-bold-buttoncomment" title="Strong &lt;strong&gt; Ctrl+B" style="left: 0px;"><span style="background-position: 0px 0px;"></span></li><li class="wmd-button" id="wmd-italic-buttoncomment" title="Emphasis &lt;em&gt; Ctrl+I" style="left: 25px;"><span style="background-position: -20px 0px;"></span></li><li class="wmd-spacer wmd-spacer1" id="wmd-spacer1comment"></li><li class="wmd-button" id="wmd-link-buttoncomment" title="Hyperlink &lt;a&gt; Ctrl+L" style="left: 75px;"><span style="background-position: -40px 0px;"></span></li><li class="wmd-button" id="wmd-quote-buttoncomment" title="Blockquote &lt;blockquote&gt; Ctrl+Q" style="left: 100px;"><span style="background-position: -60px 0px;"></span></li><li class="wmd-button" id="wmd-code-buttoncomment" title="Code Sample &lt;pre&gt;&lt;code&gt; Ctrl+K" style="left: 125px;"><span style="background-position: -80px 0px;"></span></li><li class="wmd-button" id="wmd-image-buttoncomment" title="Image &lt;img&gt; Ctrl+G" style="left: 150px;"><span style="background-position: -100px 0px;"></span></li><li class="wmd-spacer wmd-spacer2" id="wmd-spacer2comment"></li><li class="wmd-button" id="wmd-olist-buttoncomment" title="Numbered List &lt;ol&gt; Ctrl+O" style="left: 200px;"><span style="background-position: -120px 0px;"></span></li><li class="wmd-button" id="wmd-ulist-buttoncomment" title="Bulleted List &lt;ul&gt; Ctrl+U" style="left: 225px;"><span style="background-position: -140px 0px;"></span></li><li class="wmd-button" id="wmd-heading-buttoncomment" title="Heading &lt;h1&gt;/&lt;h2&gt; Ctrl+H" style="left: 250px;"><span style="background-position: -160px 0px;"></span></li><li class="wmd-button" id="wmd-hr-buttoncomment" title="Horizontal Rule &lt;hr&gt; Ctrl+R" style="left: 275px;"><span style="background-position: -180px 0px;"></span></li><li class="wmd-spacer wmd-spacer3" id="wmd-spacer3comment"></li><li class="wmd-button" id="wmd-undo-buttoncomment" title="Undo - Ctrl+Z" style="left: 325px;"><span style="background-position: -200px -20px;"></span></li><li class="wmd-button" id="wmd-redo-buttoncomment" title="Redo - Ctrl+Shift+Z" style="left: 350px;"><span style="background-position: -220px -20px;"></span></li><li class="wmd-button wmd-help-button" id="wmd-help-buttoncomment" title="Markdown Editing Help" style="right: 0px;"><span style="background-position: -240px 0px;"></span></li></ul></div><div id="wmd-button-bar-help" style="display: none;"> <p>To create code blocks or other preformatted text, indent by four spaces:</p>
+        <pre class="wmd-help"><span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>This will be displayed in a monospaced font. The first four 
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>spaces will be stripped off, but all other whitespace
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>will be preserved.
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>Markdown is turned off in code blocks:
+<span class="wmd-help-spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span> [This is not a link](http://example.com)
+</pre>
+        <p>
+            To create not a block, but an inline code span, use backticks:
+        </p>
+        <pre class="wmd-help">Here is some inline `code`.</pre> <p>For more help see <a href="http://daringfireball.net/projects/markdown/syntax" rel="no-follow"> http://daringfireball.net/projects/markdown/syntax</a></p></div><p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" tabindex="4" aria-required="true" placeholder="Leave a comment"></textarea></p><div id="wmd-previewcomment" class="wmd-panel wmd-preview prettyprint"></div></div>												<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post" class="has-text btn black">
+							<input type="hidden" name="comment_post_ID" value="Post" id="comment_post_ID" class="has-text">
+<input type="hidden" name="comment_parent" id="comment_parent" value="Post" class="has-text">
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c63d88ebe0" class="has-text"></p>					</form>
+							</div><!-- #respond -->
+			        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('#commentform').submit(function () {
+                    _gaq.push(
+                            ['_setAccount', 'UA-2725447-9'],
+                            ['_trackEvent', 'comment', 'submit']
+                    );
+                });
+            });
+        </script>
+					<div id="comments"><h3>Comments</h3><ol class="comment-list">
+	<li class="comment even thread-even depth-1 last" id="comment-208">
+
+		
+		<div class="comment-header">
+			<div class="comment-author vcard">
+												<cite class="fn">Andrew Jones</cite>		 	</div><!-- end .comment-author -->
+
+			<div class="comment-meta commentmetadata">
+				<!--<a href="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/#comment-208">May 8, 2013 at 1:09 pm</a>-->
+				 <dfn class="dictionary-of-numbers dictionary-of-numbers-quantity-15778800s dictionary-of-numbers-processed">6 months</dfn> ago 
+							</div><!-- end .comment-meta -->
+		</div>
+
+		<div class="comment-content">
+			
+			<p>Really looking forward to playing with Rendr when I get a chance.</p>
+<p>Do you have any plans to set up a mailing list for Rendr? Or do you not think its worth it? It might be a good way for us to keep up to date with Rendr development without looking at all the commits and issues on GitHub.</p>
+		</div><!-- end .comment-content -->
+
+		<div class="reply">
+			<a class="comment-reply-link" href="http://nerds.airbnb.com/weve-open-sourced-rendr-run-your-backbonejs-a/?replytocom=208#respond" onclick="return addComment.moveForm(&quot;comment-208&quot;, &quot;208&quot;, &quot;respond&quot;, &quot;176553648&quot;)">Reply</a>		</div>
+
+		</li><!-- #comment-## -->
+</ol></div>			
+				</div>
+				<!-- /post -->
+			</div>
+					</div>
+		<!-- /row -->
+	
+	</div>
+	</div></div></div><!-- end #inner --><div id="footer">
+    <div class="container">
+		<div class="row space2">
+			<div class="span12" id="searchform-block"><form method="get" class="searchform search-form" action="http://nerds.airbnb.com/" role="search"><input type="text" value="Search this website…" name="s" class="s search-input has-text" onfocus="if (&#39;Search this website…&#39; === this.value) {this.value = &#39;&#39;;}" onblur="if (&#39;&#39; === this.value) {this.value = &#39;Search this website…&#39;;}"><input type="submit" class="searchsubmit search-submit has-text" value="Search"></form></div>
+		</div>
+		<div class="row space1" id="sidebar-bottom">
+			<div id="black-studio-tinymce-2" class="widget widget_black_studio_tinymce span3"><h4 class="widgettitle">More Airbnb blogs</h4><div class="widget-cnt">			<div class="textwidget"><ul>
+<li><a href="http://blog.airbnb.com/">Airbnb blog</a></li>
+<li><a href="http://publicpolicy.airbnb.com/">Public Policy</a></li>
+</ul></div>
+		</div></div><div id="black-studio-tinymce-3" class="widget widget_black_studio_tinymce span3"><h4 class="widgettitle">Find Us at</h4><div class="widget-cnt">			<div class="textwidget"><ul>
+<li><a href="https://twitter.com/AirbnbNerds" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://twitter.com&#39;]);" target="_blank">Twitter Nerds</a></li>
+<li><a href="https://www.facebook.com/airbnb" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://www.facebook.com&#39;]);" target="_blank">Facebook</a></li>
+<li><a href="https://plus.google.com/u/0/+airbnb/posts" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://plus.google.com&#39;]);" target="_blank">Google+</a></li>
+<li><a href="https://twitter.com/Airbnb" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://twitter.com&#39;]);" target="_blank">Twitter</a></li>
+<li><a href="http://www.youtube.com/airbnb" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-widget&#39;,&#39;http://www.youtube.com&#39;]);" target="_blank">YouTube</a></li>
+</ul>
+<p>© Airbnb, Inc</p></div>
+		</div></div><div id="black-studio-tinymce-4" class="widget widget_black_studio_tinymce span3"><h4 class="widgettitle">About Airbnb</h4><div class="widget-cnt">			<div class="textwidget"><p>Airbnb is a global community marketplace that connects travelers seeking authentic, high-quality accommodations with hosts who offer unique places to stay.</p></div>
+		</div></div> 
+		</div>
+    </div>
+</div>
+</div><!-- end #wrap -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./Rendr - Airbnb intro_files/ga(1).js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4054156-1");
+pageTracker._setDomainName("none");
+pageTracker._setAllowLinker(true);
+pageTracker._setAllowHash(false);
+pageTracker._initData();
+pageTracker._trackPageview();
+</script><script type="text/javascript" src="./Rendr - Airbnb intro_files/markdown.min.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/Markdown.Converter.min.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/Markdown.Sanitizer.min.js"></script>
+<script type="text/javascript" src="./Rendr - Airbnb intro_files/Markdown.Editor.min.js"></script>
+
+
+<iframe id="shr_oven" src="./Rendr - Airbnb intro_files/saved_resource.html" style="display: none;"></iframe></body></html>
